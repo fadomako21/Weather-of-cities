@@ -1,0 +1,26 @@
+import requests
+
+url = "http://api.openweathermap.org/data/2.5/weather"
+api_key = "27e194a957973740f54fb5d1fecf7239"
+
+while True:
+  city_name = input("Enter name of city")
+  request = f"{url}?appid={api_key}&q={city_name}"
+  response = requests.get(request)
+
+  if response.status_code == 200:
+    weather_data = response.json()
+    weather_description = weather_data['weather'][0]['description']
+    current_temperature = round(weather_data["main"]["temp"] - 273.15, 2)
+    feels_like = round(weather_data["main"]["feels_like"] - 273.15, 2)
+    minimum_temperature = round(weather_data["main"]["temp_min"] - 273.15, 2)
+    maximum_temperature = round(weather_data["main"]["temp_max"] - 273.15, 2)
+    
+    print(f"The weather in {city_name.capitalize()} now is {weather_description}")
+    print(f"The current temperature in {city_name.capitalize()} is {current_temperature}°C. However, it feels like {feels_like}°C in {city_name.capitalize()}")
+    print(f"The minimum temperature today is {minimum_temperature}°C and the maximum temperature is {maximum_temperature}°C")
+    break
+  else:
+    print("Please! enter the name of a valid city")
+
+
